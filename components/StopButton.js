@@ -1,29 +1,24 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { Icon } from 'react-native-elements';
 
 
 export class StopButton extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {visible: false};
   }
 
   render() {
     return (
-      <TouchableOpacity
-        style={{
-          borderWidth: 1,
-          borderColor: '#FF1F58',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 75,
-          height: 75,
-          backgroundColor: '#FF1F58',
-          borderRadius: 100,
-        }}
+      <Icon
+        raised
+        type="font-awesome"
+        containerStyle={{ backgroundColor: '#FF1F58' }}
+        name="stop"
+        color="white"
+        size={35}
         onPress={this.props.onPress}
-      >
-      </TouchableOpacity>
-    )
+      />
+    );
   }
 }

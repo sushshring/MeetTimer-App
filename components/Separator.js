@@ -27,10 +27,10 @@ export class Separator extends React.Component {
           this.state.fontLoaded ?
             (
               <Text
-                style={{fontSize: this.props.size, color: '#feffff', marginTop: 40, fontFamily: 'roboto-slab'}}>:</Text>
+                style={{fontSize: this.props.size, color: '#feffff', marginTop: 45, fontFamily: 'roboto-slab'}}>:</Text>
             ) :
             (
-              <Text style={{fontSize: this.props.size, color: '#feffff', marginTop: 40}}>:</Text>
+              <Text style={{fontSize: this.props.size, color: '#feffff', marginTop: 45}}>:</Text>
             )
         }
       </View>
