@@ -14,7 +14,7 @@ export default class Minus extends React.Component {
         {
           this.props.visible ?
             (
-              <Text style={{ fontSize: this.props.size, color: '#ff4366', marginTop: 40 }}>
+              <Text style={{ fontSize: this.props.size, color: '#ff4366' }}>
                 -
               </Text>
             ) : null

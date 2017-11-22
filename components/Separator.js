@@ -30,7 +30,7 @@ export default class Separator extends React.Component {
                 style={{
                   fontSize: this.props.size,
                   color: '#feffff',
-                  marginTop: 45,
+                  marginBottom: 20,
                   fontFamily: 'roboto-slab',
                 }}
               >:
@@ -39,8 +39,8 @@ export default class Separator extends React.Component {
             (
               <Text style={{
                 fontSize: this.props.size,
+                marginBottom: 20,
                 color: '#feffff',
-                marginTop: 45,
               }}
               >:
               </Text>
