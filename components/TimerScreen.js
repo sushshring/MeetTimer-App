@@ -1,15 +1,15 @@
 /* eslint-disable react/jsx-filename-extension,react/prop-types */
 
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { Font } from 'expo';
+import {View, StyleSheet, Text} from 'react-native';
+import {Font} from 'expo';
 const Timer = require('clockmaker').Timer;
-import { Digit } from './Digit';
-import { Separator } from './Separator';
-import { Minus } from './Minus';
-import { StopButton } from './StopButton';
-import { ProgressBar } from './ProgressBar';
-import { PauseButton } from './PauseButton';
+import Digit from './Digit';
+import Separator from './Separator';
+import Minus from './Minus';
+import StopButton from './StopButton';
+import ProgressBar from './ProgressBar';
+import PauseButton from './PauseButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,9 +32,10 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans',
   },
   timeremainingnf: {
+    flex: 1,
     color: '#1F9AAB',
-    fontSize: 50,
-    marginTop: 50,
+    fontSize: 40,
+    paddingTop: 30,
     marginLeft: 50,
   },
   digits: {
@@ -51,46 +52,42 @@ const styles = StyleSheet.create({
 });
 
 export default class TimerScreen extends React.Component {
-  static navigationOptions = (({navigation}) => ({
-   headerTitle: 'Timer'
-}));
+
+  static navigationOptions = {
+    title: 'Timer'
+  };
+
   constructor() {
     super();
     this.state = {
       fontLoaded: false,
       paused: true,
-      remsecs: 7000,
+      remsecs: -5000,
     };
     this.onPause = () => {
-      this.setState({ paused: true });
-      console.log('paused');
-      console.log(`Paused state: ${this.state.paused}`);
+      this.setState({paused: true});
       this.timer.stop();
     };
     this.onStop = () => {
-      console.log('stopped');
       this.timer.stop();
     };
 
     this.onPlay = () => {
-      console.log('Played');
-      this.setState({ paused: false });
-      console.log(`Paused state: ${this.state.paused}`);
+      this.setState({paused: false});
       this.timer.start();
     };
 
     this.timer = Timer((timer) => {
-      this.setState(previousState => ({ remsecs: previousState.remsecs - 1 }));
-      console.log(this.state.remsecs);
+      this.setState(previousState => ({remsecs: previousState.remsecs - 1}));
     }, 1000, {
       repeat: true,
     });
 
     this.getNumDigits = () => {
       const remsecs = Math.abs(this.state.remsecs);
-      if (remsecs < 6000) {
+      if (remsecs < 3600) {
         return 4;
-      } else if (remsecs < 38400) {
+      } else if (remsecs < 36000) {
         return 5;
       }
       throw new RangeError('Illegal time configured');
@@ -101,7 +98,7 @@ export default class TimerScreen extends React.Component {
       format = format.replace(/\B(?=(\d{2})+(?!\d))/g, ':');
       return Array.prototype.map.call(format, (char, index, array) => {
         if (char === '0') {
-          const rem = this.state.remsecs;
+          const rem = Math.abs(this.state.remsecs);
           let val = 0;
           if (array.length > 5) {
             const hours = Math.floor(rem / 3600);
@@ -133,19 +130,18 @@ export default class TimerScreen extends React.Component {
             const secs = rem - (minutes * 60);
             switch (index) {
               case 0:
-                val = minutes % 10;
-                break;
-              case 1:
                 val = Math.floor(minutes / 10);
                 break;
-              case 3:
-                val = secs % 10;
+              case 1:
+                val = minutes % 10;
                 break;
-              case 4:
+              case 3:
                 val = Math.floor(secs / 10);
                 break;
+              case 4:
+                val = secs % 10;
+                break;
               default:
-                console.error('Something weird happen');
                 console.log(char, index, array);
                 break;
             }
@@ -154,6 +150,7 @@ export default class TimerScreen extends React.Component {
             <Digit
               value={val}
               style={styles.digit}
+              negative={this.state.remsecs < 0}
               paddingLeft={20}
               paddingRight={20}
               key={index}
@@ -162,7 +159,7 @@ export default class TimerScreen extends React.Component {
         }
         if (char === ':') {
           return (
-            <Separator size={50} key={index} />
+            <Separator size={50} key={index}/>
           );
         }
         return null;
@@ -174,15 +171,16 @@ export default class TimerScreen extends React.Component {
     await Font.loadAsync({
       'open-sans': require('../assets/OpenSans-Regular.ttf'),
     });
-    this.setState({ fontLoaded: true });
+    //this.setState({fontLoaded: true});
   }
 
   render() {
     const digits = this.getDigits();
     console.log(digits);
+    console.log(this.state.remsecs);
     return (
       <View style={styles.container}>
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           {
             this.state.fontLoaded ?
               (
@@ -193,18 +191,18 @@ export default class TimerScreen extends React.Component {
           }
         </View>
         <View style={styles.digits}>
-          <Minus visible={this.state.remsecs < 0} />
+          <Minus visible={this.state.remsecs < 0} size={70}/>
           {
             digits
           }
           <View style={styles.control}>
-            <PauseButton onPause={this.onPause} onResume={this.onPlay} />
-            <StopButton onPress={this.onStop} />
+            <PauseButton onPause={this.onPause} onResume={this.onPlay}/>
+            <StopButton onPress={this.onStop}/>
           </View>
         </View>
-        <View style={{ flex: 1, flexDirection: 'row' }}>
+        <View style={{flex: 1, flexDirection: 'row'}}>
           <ProgressBar
-            progress={this.state.remsecs / this.props.initsecs}
+            progress={Math.abs(this.state.remsecs) / this.props.initvalue}
           />
         </View>
       </View>

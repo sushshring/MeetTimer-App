@@ -3,7 +3,8 @@ import React from 'react';
 import { Icon } from 'react-native-elements';
 
 
-export class StopButton extends React.Component {
+export default class StopButton extends React.Component {
+
   constructor(props) {
     super(props);
   }

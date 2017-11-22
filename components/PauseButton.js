@@ -3,7 +3,7 @@ import React from 'react';
 import { Icon } from 'react-native-elements';
 
 
-export class PauseButton extends React.Component {
+export default class PauseButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = { paused: true };

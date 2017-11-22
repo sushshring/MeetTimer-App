@@ -4,14 +4,10 @@ import { Text, View } from 'react-native';
 import { Font } from 'expo';
 
 
-export class Digit extends React.Component {
+export default class Digit extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { currentValue: this.props.value ? this.props.value : 0, color: '#feffff', fontLoaded: false };
-
-    this.updateNumber = function (newNum) {
-      this.state = newNum;
-    };
+    this.state = { fontLoaded: false };
   }
 
   async componentDidMount() {
@@ -32,24 +28,24 @@ export class Digit extends React.Component {
           this.state.fontLoaded ?
             (
               <Text style={{
-                color: this.state.color,
+                color: this.props.negative ? '#ff4366' : '#feffff',
                 fontFamily: 'barlow-semibold',
                 fontSize: 125,
                 flex: 1,
                 paddingLeft: this.props.paddingLeft ? this.props.paddingLeft : 0,
                 paddingRight: this.props.paddingRight ? this.props.paddingRight : 0,
               }}
-              >{this.state.currentValue}
+              >{this.props.value}
               </Text>
             ) : (
               <Text style={{
-                color: this.state.color,
+                color: this.props.negative ? '#ff4366' : '#feffff',
                 fontSize: 125,
                 flex: 1,
                 paddingLeft: this.props.paddingLeft ? this.props.paddingLeft : 0,
                 paddingRight: this.props.paddingRight ? this.props.paddingRight : 0,
               }}
-              >{this.state.currentValue}
+              >{this.props.value ? this.props.value : 0}
               </Text>
             )
         }

@@ -1,11 +1,11 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { Text, View } from 'react-native';
 
 
-export class Minus extends React.Component {
+export default class Minus extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {visible: this.props.visible};
   }
 
   render() {
@@ -14,10 +14,12 @@ export class Minus extends React.Component {
         {
           this.props.visible ?
             (
-              <Text style={{fontSize: this.props.size, color: '#feffff', marginTop: 40}}>-</Text>
-            ): null
+              <Text style={{ fontSize: this.props.size, color: '#ff4366', marginTop: 40 }}>
+                -
+              </Text>
+            ) : null
         }
       </View>
-    )
+    );
   }
 }
