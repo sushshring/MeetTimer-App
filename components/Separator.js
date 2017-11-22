@@ -12,7 +12,7 @@ export default class Separator extends React.Component {
   async componentDidMount() {
     try {
       await Font.loadAsync({
-        'roboto-slab': require('../assets/RobotoSlab-Bold.ttf'),
+        gotham: require('../assets/Gotham-Bold.ttf'),
       });
     } catch (err) {
       console.error(err);
@@ -31,7 +31,7 @@ export default class Separator extends React.Component {
                   fontSize: this.props.size,
                   color: '#feffff',
                   marginBottom: 20,
-                  fontFamily: 'roboto-slab',
+                  fontFamily: 'gotham',
                 }}
               >:
               </Text>

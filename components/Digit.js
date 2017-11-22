@@ -13,7 +13,7 @@ export default class Digit extends React.Component {
   async componentDidMount() {
     try {
       await Font.loadAsync({
-        'barlow-semibold': require('../assets/Barlow-SemiBold.ttf'),
+        gotham: require('../assets/Gotham-Bold.ttf'),
       });
     } catch (err) {
       console.error(err);
@@ -29,7 +29,7 @@ export default class Digit extends React.Component {
             (
               <Text style={{
                 color: this.props.negative ? '#ff4366' : '#feffff',
-                fontFamily: 'barlow-semibold',
+                fontFamily: 'gotham',
                 fontSize: 125,
                 flex: 1,
                 paddingLeft: this.props.paddingLeft ? this.props.paddingLeft : 0,

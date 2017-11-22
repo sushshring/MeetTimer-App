@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     fontSize: 40,
     marginLeft: 40,
-    fontFamily: 'open-sans',
+    fontFamily: 'gotham',
   },
   timeremainingnf: {
     flex: 1,
@@ -178,7 +178,7 @@ export default class TimerScreen extends React.Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      'open-sans': require('../assets/OpenSans-Regular.ttf'),
+      gotham: require('../assets/Gotham-Bold.ttf'),
     });
     //this.setState({fontLoaded: true});
   }
