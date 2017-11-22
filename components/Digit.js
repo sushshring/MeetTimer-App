@@ -31,6 +31,7 @@ export default class Digit extends React.Component {
                 color: this.props.negative ? '#ff4366' : '#feffff',
                 fontFamily: 'gotham',
                 fontSize: 125,
+                marginTop: 40,
                 flex: 1,
                 paddingLeft: this.props.paddingLeft ? this.props.paddingLeft : 0,
                 paddingRight: this.props.paddingRight ? this.props.paddingRight : 0,
@@ -42,6 +43,7 @@ export default class Digit extends React.Component {
                 color: this.props.negative ? '#ff4366' : '#feffff',
                 fontSize: 125,
                 flex: 1,
+                marginTop: 40,
                 paddingLeft: this.props.paddingLeft ? this.props.paddingLeft : 0,
                 paddingRight: this.props.paddingRight ? this.props.paddingRight : 0,
               }}

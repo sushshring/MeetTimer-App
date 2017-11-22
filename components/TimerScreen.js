@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     fontSize: 40,
     marginLeft: 40,
+    marginTop: 25,
     fontFamily: 'gotham',
   },
   timeremainingnf: {
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     paddingTop: 30,
     marginLeft: 40,
+    marginTop: 25,
   },
   digits: {
     flex: 2,
