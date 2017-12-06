@@ -1,5 +1,5 @@
 {
-  "name": "MeetTimer",
+  "name": "ConferenceTime",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
@@ -28,15 +28,16 @@
     "babel-preset-expo": "^4.0.0",
     "babel-runtime": "^6.26.0",
     "clockmaker": "^2.0.0",
-    "expo": "^21.0.3",
-    "react": "^16.1.1",
+    "expo": "^23.0.6",
+    "react": "^16.2.0",
     "react-dom": "^16.1.1",
     "react-icons": "^2.2.7",
     "react-native": "^0.50.3",
-    "react-native-elements": "^0.18.2",
+    "react-native-elements": "^0.18.4",
+    "react-native-simple-time-picker": "^0.2.0",
     "react-native-svg-image": "^2.0.1",
     "react-native-vector-icons": "^4.4.2",
-    "react-navigation": "^1.0.0-beta.13",
+    "react-navigation": "^1.0.0-beta.21",
     "websql": "^0.4.4"
   }
 }

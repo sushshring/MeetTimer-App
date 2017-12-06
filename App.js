@@ -5,7 +5,12 @@ import WelcomeScreen from './components/WelcomeScreen';
 
 
 export default App = StackNavigator({
-  Welcome: { screen: WelcomeScreen },
-  Home: { screen: TimerScreen },
+  Welcome: {
+    screen: WelcomeScreen,
+    navigationOptions: {
+      headerTitle: 'ConferenceTime',
+    },
+  },
+  Timer: { screen: TimerScreen },
   // Settings: { screen: SettingsScreen }
 });

@@ -1,4 +1,7 @@
 {
   "name": "MeetTimer",
-  "displayName": "MeetTimer"
+  "displayName": "MeetTimer",
+  "expo": {
+    "sdkVersion": "23.0.0"
+  }
 }

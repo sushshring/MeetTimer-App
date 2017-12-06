@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import {
-  DatePickerIOS, TimePickerAndroid, Button, View, StyleSheet, Platform, Modal,
-  TouchableHighlight, Text,
+  TimePickerAndroid, Button, View, StyleSheet, Platform, Modal,
+  TouchableOpacity, Text, TouchableHighlight,
 } from 'react-native';
 import SVGImage from 'react-native-svg-image';
+import TimePicker from 'react-native-simple-time-picker';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,21 +16,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   title: {
-    flex: 2,
+    flex: 3,
   },
 });
 
 export default class WelcomeScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { modalVisible: false };
-    this.setModalVisible = ({ visible }) => {
-      this.setState({ modalVisible: visible });
-    };
 
-    this.startTimer = ({ date }) => {
-      this.props.navigation.navigate('TimerScreen', { time: date.getTime() - new Date().getTime() });
-    };
+  static navigationOptions = {
+    title: 'ConferenceTime',
+  };
+
+  constructor() {
+    super();
+    this.state = {modalVisible: false, selectedHours: 0, selectedMinutes: 0};
+    this.setModalVisible = this.setModalVisible.bind(this);
+    this.startTimer = this.startTimer.bind(this);
 
 
     this.setTimer = async () => {
@@ -37,7 +38,7 @@ export default class WelcomeScreen extends React.Component {
         this.setModalVisible(true);
       } else if (Platform.OS === 'android') {
         try {
-          const { action, hour, minute } = await TimePickerAndroid.open({
+          const {action, hour, minute} = await TimePickerAndroid.open({
             hour: 0,
             minute: 0,
             is24Hour: false, // Will display '2 PM'
@@ -48,19 +49,27 @@ export default class WelcomeScreen extends React.Component {
             date.setTime(date.getTime() + (hour * 60 * 60 * 1000 + minute * 60 * 1000));
             this.startTimer(date);
           }
-        } catch ({ code, message }) {
+        } catch ({code, message}) {
           console.warn('Cannot open time picker', message);
         }
       }
     };
   }
 
+  setModalVisible(visible) {
+    console.log('Modal setting');
+    this.setState(previousState => ({modalVisible: visible}));
+  }
+
+  startTimer() {
+    this.props.navigation.navigate('Timer', {time: (this.state.selectedHours * 60 * 60) + (this.state.selectedMinutes * 60)});
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <SVGImage
+        <View
           style={{
-            flex: 1,
             position: 'absolute',
             top: 0,
             bottom: 0,
@@ -68,32 +77,73 @@ export default class WelcomeScreen extends React.Component {
             right: 0,
             width: '100%',
             height: '100%',
-          }}
-          source={{ uri: 'http://svgshare.com/i/411.svg' }}
-        />
-        <View style={styles.title} />
-        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-          <Button
-            title="Set Timer"
-            onPress={this.setTimer}
-            color="#00CEC5"
-          />
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
+          }}>
+          <SVGImage
+            style={{
+              flex: 1,
             }}
+            source={{uri: 'http://svgshare.com/i/411.svg'}}
+          />
+        </View>
+        <View style={styles.title}/>
+        <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
+          <TouchableHighlight
+            style={{
+              alignSelf: 'center',
+              backgroundColor: '#00CEC5',
+              paddingLeft: 15,
+              paddingRight: 15,
+              paddingTop: 10,
+              paddingBottom: 10
+            }}
+            onPress={this.setTimer}
+            color="#fff"
           >
-            <View style={{ marginTop: 22 }}>
-              <View>
-                <TouchableHighlight onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}
+            <Text style={{color: '#fff', fontSize: 20 }}>Set Timer</Text>
+          </TouchableHighlight>
+          <Modal
+            style={{flexDirection: "column"}}
+            animationType="slide"
+            onDismiss={() => {
+              console.log('Close clicked');
+              this.setModalVisible(false);
+              this.startTimer();
+            }}
+            visible={this.state.modalVisible}
+          >
+            <View style={{marginTop: 22}}>
+              <View style={{flex: 1, flexDirection: 'column'}}>
+                <TouchableOpacity
+                  style={{marginLeft: 10, flex: 1, alignSelf: 'flex-start'}}
+                  onPress={() => {
+                    this.setModalVisible(false);
+                  }}
                 >
                   <Text>Close</Text>
-                </TouchableHighlight>
-                <DatePickerIOS mode="time" minuteInterval={1} onDateChange={this.startTimer} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{marginRight: 10, flex: 1, alignSelf: 'flex-end'}}
+                  onPress={() => {
+                    console.log('Close clicked');
+                    this.setModalVisible(false);
+                    console.log(this.state.modalVisible);
+                    this.startTimer();
+                  }}
+                >
+                  <Text>Confirm</Text>
+                </TouchableOpacity>
+                <TimePicker
+                  style={{flex: 5, marginTop: 25}}
+                  selectedHours={0}
+                  selectedMinutes={0}
+                  hoursUnit=" Hours"
+                  minutesUnit=" Minutes"
+                  onChange={
+                    (hours, minutes) => {
+                      this.setState({selectedHours: hours, selectedMinutes: minutes});
+                    }}
+                />
+
               </View>
             </View>
           </Modal>
@@ -102,4 +152,5 @@ export default class WelcomeScreen extends React.Component {
     );
   }
 }
+
 

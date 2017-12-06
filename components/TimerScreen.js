@@ -68,12 +68,12 @@ export default class TimerScreen extends React.Component {
     title: 'Timer'
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       fontLoaded: false,
       paused: true,
-      remsecs: 5,
+      remsecs: `${this.props.navigation.state.params.time}`,
     };
     this.onPause = () => {
       this.setState({paused: true});
@@ -225,5 +225,3 @@ export default class TimerScreen extends React.Component {
     );
   }
 }
-
-1
