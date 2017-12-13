@@ -1,18 +1,20 @@
 /* eslint-disable react/jsx-filename-extension,react/prop-types */
 
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
-import {Font} from 'expo';
+import { View, StyleSheet, Text } from 'react-native';
+import { Font, ScreenOrientation } from 'expo';
+// import Orientation from 'react-native-orientation-locker';
+import SVGImage from 'react-native-svg-image';
 
-const Timer = require('clockmaker').Timer;
+
 import Digit from './Digit';
 import Separator from './Separator';
 import Minus from './Minus';
 import StopButton from './StopButton';
 import ProgressBar from './ProgressBar';
 import PauseButton from './PauseButton';
-import SVGImage from "react-native-svg-image";
 
+const Timer = require('clockmaker').Timer;
 const bgimg = require('../assets/timerbg.svg');
 
 const styles = StyleSheet.create({
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#000',
-    shadowOffset: {height: 10,},
+    shadowOffset: { height: 10 },
     shadowColor: 'black',
     shadowOpacity: 1.0,
   },
@@ -63,33 +65,31 @@ const styles = StyleSheet.create({
 });
 
 export default class TimerScreen extends React.Component {
-
-  static navigationOptions = {
-    title: 'Timer'
-  };
-
   constructor(props) {
     super(props);
     this.state = {
       fontLoaded: false,
       paused: true,
-      remsecs: `${this.props.navigation.state.params.time}`,
+      remsecs: `${this.props.navigation.state.params.time ? this.props.navigation.state.params.time : 0}`,
+      initvalue: `${this.props.navigation.state.params.time ? this.props.navigation.state.params.time : 0}`,
+      // remsecs: 5,
     };
     this.onPause = () => {
-      this.setState({paused: true});
+      this.setState({ paused: true });
       this.timer.stop();
     };
     this.onStop = () => {
       this.timer.stop();
+      this.props.navigation.goBack();
     };
 
     this.onPlay = () => {
-      this.setState({paused: false});
+      this.setState({ paused: false });
       this.timer.start();
     };
 
     this.timer = Timer((timer) => {
-      this.setState(previousState => ({remsecs: previousState.remsecs - 1}));
+      this.setState(previousState => ({ remsecs: previousState.remsecs - 1 }));
     }, 1000, {
       repeat: true,
     });
@@ -170,7 +170,7 @@ export default class TimerScreen extends React.Component {
         }
         if (char === ':') {
           return (
-            <Separator size={50} key={index}/>
+            <Separator size={50} key={index} />
           );
         }
         return null;
@@ -182,21 +182,30 @@ export default class TimerScreen extends React.Component {
     await Font.loadAsync({
       gotham: require('../assets/Gotham-Bold.ttf'),
     });
-    //this.setState({fontLoaded: true});
+    this.setState({ fontLoaded: true });
+    ScreenOrientation.allow(ScreenOrientation.Orientation.LANDSCAPE);
+  }
+
+  componentWillUnmount() {
+    this.timer.stop();
   }
 
   render() {
     const digits = this.getDigits();
-    console.log(digits);
-    console.log(this.state.remsecs);
     return (
       <View style={styles.container}>
-        <View style={{position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, width: '100%', height: '100%'}}>
-          <SVGImage style={{
+        <View style={{
+          position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, width: '100%', height: '100%',
+        }}
+        >
+          <SVGImage
+            style={{
             flex: 1,
-          }} source={{uri: 'http://svgshare.com/i/3x_.svg'}}/>
+          }}
+            source={{ uri: 'http://svgshare.com/i/3x_.svg' }}
+          />
         </View>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           {
             this.state.fontLoaded ?
               (
@@ -207,18 +216,18 @@ export default class TimerScreen extends React.Component {
           }
         </View>
         <View style={styles.digits}>
-          <Minus visible={this.state.remsecs < 0} size={70}/>
+          <Minus visible={this.state.remsecs < 0} size={70} />
           {
             digits
           }
           <View style={styles.control}>
-            <PauseButton onPause={this.onPause} onResume={this.onPlay}/>
-            <StopButton onPress={this.onStop}/>
+            <PauseButton onPause={this.onPause} onResume={this.onPlay} />
+            <StopButton onPress={this.onStop} />
           </View>
         </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
           <ProgressBar
-            progress={Math.abs(this.state.remsecs) / this.props.initvalue}
+            progress={Math.max((this.state.remsecs / this.state.initvalue), 0)}
           />
         </View>
       </View>

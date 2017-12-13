@@ -11,6 +11,8 @@ export default App = StackNavigator({
       headerTitle: 'ConferenceTime',
     },
   },
-  Timer: { screen: TimerScreen },
+  Timer: { screen: TimerScreen, navigationOptions: {
+    time: 5
+  } },
   // Settings: { screen: SettingsScreen }
 });

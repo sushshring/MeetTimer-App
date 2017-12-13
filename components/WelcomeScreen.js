@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import {
-  TimePickerAndroid, Button, View, StyleSheet, Platform, Modal,
-  TouchableOpacity, Text, TouchableHighlight,
+  TimePickerAndroid, View, StyleSheet, Platform, Modal,
+  Text, TouchableHighlight,
 } from 'react-native';
 import SVGImage from 'react-native-svg-image';
 import TimePicker from 'react-native-simple-time-picker';
+import {ScreenOrientation} from "expo";
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +26,10 @@ export default class WelcomeScreen extends React.Component {
   static navigationOptions = {
     title: 'ConferenceTime',
   };
+
+  componentDidMount() {
+    ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT);
+  }
 
   constructor() {
     super();
@@ -99,7 +104,7 @@ export default class WelcomeScreen extends React.Component {
             onPress={this.setTimer}
             color="#fff"
           >
-            <Text style={{color: '#fff', fontSize: 20 }}>Set Timer</Text>
+            <Text style={{color: '#fff', fontSize: 20}}>Set Timer</Text>
           </TouchableHighlight>
           <Modal
             style={{flexDirection: "column"}}
@@ -107,49 +112,49 @@ export default class WelcomeScreen extends React.Component {
             onDismiss={() => {
               console.log('Close clicked');
               this.setModalVisible(false);
-              this.startTimer();
             }}
             visible={this.state.modalVisible}
           >
-            <View style={{marginTop: 22}}>
+            <View style={{marginTop: 50, marginBottom: 25, flexDirection: 'column'}}>
+
+              <TimePicker
+                style={{flex: 5, marginTop: 25}}
+                selectedHours={0}
+                selectedMinutes={0}
+                hoursUnit=" Hours"
+                minutesUnit=" Minutes"
+                onChange={
+                  (hours, minutes) => {
+                    this.setState({selectedHours: hours, selectedMinutes: minutes});
+                  }}
+              />
               <View style={{flex: 1, flexDirection: 'column'}}>
-                <TouchableOpacity
+                <TouchableHighlight
                   style={{marginLeft: 10, flex: 1, alignSelf: 'flex-start'}}
                   onPress={() => {
                     this.setModalVisible(false);
                   }}
                 >
                   <Text>Close</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </TouchableHighlight>
+                <TouchableHighlight
                   style={{marginRight: 10, flex: 1, alignSelf: 'flex-end'}}
                   onPress={() => {
-                    console.log('Close clicked');
+                    console.log('Confirmz clicked');
                     this.setModalVisible(false);
                     console.log(this.state.modalVisible);
                     this.startTimer();
                   }}
                 >
                   <Text>Confirm</Text>
-                </TouchableOpacity>
-                <TimePicker
-                  style={{flex: 5, marginTop: 25}}
-                  selectedHours={0}
-                  selectedMinutes={0}
-                  hoursUnit=" Hours"
-                  minutesUnit=" Minutes"
-                  onChange={
-                    (hours, minutes) => {
-                      this.setState({selectedHours: hours, selectedMinutes: minutes});
-                    }}
-                />
-
+                </TouchableHighlight>
               </View>
             </View>
           </Modal>
         </View>
       </View>
-    );
+    )
+      ;
   }
 }
 

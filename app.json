@@ -1,7 +1,8 @@
 {
-  "name": "MeetTimer",
-  "displayName": "MeetTimer",
+  "name": "ConferenceTime",
+  "displayName": "ConferenceTime",
   "expo": {
-    "sdkVersion": "23.0.0"
+    "sdkVersion": "23.0.0",
+    "orientation": "portrait"
   }
 }
